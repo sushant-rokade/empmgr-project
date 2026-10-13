@@ -1,6 +1,7 @@
 from .storage import load_employees, save_employees
 from .models import add_employee
 from .validators import parse_salary, check_email
+from .report import report_summary
 from rich.console import Console 
 from rich.table import Table 
   
@@ -21,7 +22,8 @@ def main():
         print("\n=== Employee Manager ===") 
         print("1. List employees") 
         print("2. Add employee") 
-        print("3. Quit") 
+        print("3. Average Salary and no. of employee by department")
+        print("4. Quit") 
         choice = input("Choose an option: ").strip() 
         if choice == "1": 
             show_employees()
@@ -35,7 +37,10 @@ def main():
                 continue 
             add_employee(employees, name, email, department, salary) 
             save_employees(employees) 
-        elif choice == "3": 
+        elif choice == "3":
+            result = report_summary(load_employees())
+            print(result)
+        elif choice == "4": 
             break 
         else: 
             print("Invalid option.") 
