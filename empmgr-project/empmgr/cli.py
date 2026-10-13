@@ -1,6 +1,6 @@
 from .storage import load_employees, save_employees
 from .models import add_employee
-from .validators import parse_salary
+from .validators import parse_salary, check_email
 from rich.console import Console 
 from rich.table import Table 
   
@@ -30,7 +30,7 @@ def main():
             email = input("Email: ").strip() 
             department = input("Department: ").strip() 
             salary = parse_salary(input("Salary: ")) 
-            if not name or salary is None: 
+            if not name or salary is None or not check_email(email): 
                 print("Invalid input - employee not added.") 
                 continue 
             add_employee(employees, name, email, department, salary) 
