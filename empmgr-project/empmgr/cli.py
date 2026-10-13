@@ -1,9 +1,20 @@
 from .storage import load_employees, save_employees
 from .models import add_employee
 from .validators import parse_salary
+from rich.console import Console 
+from rich.table import Table 
   
 from .storage import load_employees 
   
+def show_employees() -> None: 
+    table = Table(title="Employees") 
+    for col in ("ID", "Name", "Department", "Salary"): 
+        table.add_column(col) 
+    for emp in load_employees(): 
+        table.add_row(str(emp["id"]), emp["name"], 
+                      emp["department"], f"{emp['salary']:,.2f}") 
+    Console().print(table) 
+
 def main(): 
     employees = load_employees() 
     while True: 
@@ -13,8 +24,7 @@ def main():
         print("3. Quit") 
         choice = input("Choose an option: ").strip() 
         if choice == "1": 
-            for e in employees: 
-                print(e["id"], e["name"], e["department"], e["salary"]) 
+            show_employees()
         elif choice == "2": 
             name = input("Name: ").strip() 
             email = input("Email: ").strip() 
@@ -29,5 +39,6 @@ def main():
             break 
         else: 
             print("Invalid option.") 
+
 if __name__ == "__main__":
     main()
